@@ -19,20 +19,26 @@ public class Main {
 
        // System.out.println("ACE = " + Value.ACE.isWorth());
 
-
         // Variables initialization
         String[] p1, p2; // old code
-
-        String[] handP1, handP2;
-
 
         // Data origin
         if (args.length == 2) {
             // Use the given arguments as data
-            p1 = str2Array(args[0].trim().toUpperCase());
-            p2 = str2Array(args[1].trim().toUpperCase());
+           p1 = str2Array(args[0].trim().toUpperCase());
+           p2 = str2Array(args[1].trim().toUpperCase());
+
+
         } else {
-            // Read the data from stdin
+            // '1H 4H 6H JH 8H'
+            // '2C 2D 5H TS KS'
+            CardHand player1 = new CardHand("2C 4D 6H JS 8H");
+            int x = Shape.D.ordinal();
+            int y = Value.SEVEN.ordinal();
+            //player1.setCardHand("1H 4H 6H JH 8H");
+            //CardHand player2 = new CardHand();
+            //player2.setCardHand("2C 2D 5H TS KS");
+
             Scanner sc = new Scanner(System.in);
             System.out.print("p1? ");
             p1 = str2Array(sc.nextLine().trim().toUpperCase());

@@ -20,6 +20,26 @@ package uqam.inf5153.poker {
     - getTable(): Map<Char, Int>
   }
 
+  class CardHand {
+   ArrayList<Card> cardHand;
+   --
+   - CardHand(hand: String)
+   - getHand(): ArrayList<card>
+  }
+
+  class Card {
+   Value value
+   Shape shape
+   --
+   - Card(value: Value, shape Shape)
+   - getValue(): Value
+   - getShape(): Shape
+   - equals(): boolean
+   - hashCode(): int
+  }
+
+CardHand--Card
+
 }
 
 @enduml
