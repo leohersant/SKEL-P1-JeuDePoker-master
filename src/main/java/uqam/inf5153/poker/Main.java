@@ -10,13 +10,22 @@ public class Main {
     // The result of the game
     static String result;
 
+
     /**
      * The main function. If no arguments given, we will use stdin to read the data.
      * @param args the arguments (the two hands).
      */
     public static void main(String[] args) {
+
+       // System.out.println("ACE = " + Value.ACE.isWorth());
+
+
         // Variables initialization
-        String[] p1, p2;
+        String[] p1, p2; // old code
+
+        String[] handP1, handP2;
+
+
         // Data origin
         if (args.length == 2) {
             // Use the given arguments as data

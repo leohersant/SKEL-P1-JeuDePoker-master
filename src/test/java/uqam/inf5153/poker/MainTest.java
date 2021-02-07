@@ -12,6 +12,22 @@ public class MainTest {
 
     @Before public void initResult() { Main.result = null; }
 
+    @Test public void CardEquals(){
+        Card c1 = new Card(Value.TWO, Shape.S);
+        Card c2 = new Card(Value.TWO, Shape.S);
+        if (c1.equals(c2)){
+            assertEquals(1, 1);
+        } else{
+            assertEquals(1, 2);
+        }
+    }
+
+    @Test public void CardHash(){
+        Card c1 = new Card(Value.TWO, Shape.S);
+        Card c2 = new Card(Value.TWO, Shape.S);
+        assertEquals(c1.hashCode(), c2.hashCode());
+    }
+
     // P1 Wins
 
     @Test public void p1F_p2H() {
