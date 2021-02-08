@@ -28,6 +28,50 @@ public class MainTest {
         assertEquals(c1.hashCode(), c2.hashCode());
     }
 
+    @Test public void flush(){
+        CardHand pokerHand = new CardHand("2C 4C 6C JC 8C");
+        PokerCombination combination = new PokerCombination();
+        boolean isAFlush = combination.flush(pokerHand);
+        assertEquals(true, isAFlush);
+    }
+
+    @Test public void notFlush(){
+        CardHand pokerHand = new CardHand("2C 4C 6D JH 8S");
+        PokerCombination combination = new PokerCombination();
+        boolean isAFlush = combination.flush(pokerHand);
+        assertEquals(false, isAFlush);
+    }
+
+    @Test public void straightFlush(){
+        CardHand pokerHand = new CardHand("TH JH QH KH AH");
+        PokerCombination combination = new PokerCombination();
+        boolean isAStraightFlush = combination.straight(pokerHand);
+        assertTrue(isAStraightFlush);
+    }
+
+    @Test public void straight(){
+        CardHand pokerHand = new CardHand("TC JC QD KH AS");
+        PokerCombination combination = new PokerCombination();
+        boolean isAStraight = combination.straight(pokerHand);
+        assertTrue(isAStraight);
+    }
+
+    @Test public void notStraight(){
+        CardHand pokerHand = new CardHand("2C 4C 6D JH 8S");
+        PokerCombination combination = new PokerCombination();
+        boolean isAStraight = combination.straight(pokerHand);
+        assertEquals(false, isAStraight);
+    }
+
+/*
+    @Test public void fourOfAKind(){
+        CardHand pokerHand = new CardHand("QH QS QD QC 5D");
+        PokerCombination combination = new PokerCombination();
+        boolean isAquad = combination.fourOfAKind(pokerHand);
+        assertTrue(isAquad);
+    }
+*/
+
     // P1 Wins
 
     @Test public void p1F_p2H() {

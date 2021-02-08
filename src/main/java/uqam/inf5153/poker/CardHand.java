@@ -2,6 +2,10 @@ package uqam.inf5153.poker;
 
 import java.util.*;
 
+/**
+ * Card value: ZERO, ONE do not exist in this game.
+ * their goal is to follow the ordinal sequence.
+ */
 enum Value {
     ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
     EIGHT, NINE, TEN, VALET, QUEEN, KING, ACE;

@@ -18,7 +18,6 @@ public class Card {
     public Value getValue() {
         return value;
     }
-
     public Shape getShape() {
         return shape;
     }

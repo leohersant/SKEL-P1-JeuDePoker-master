@@ -28,16 +28,18 @@ public class Main {
            p1 = str2Array(args[0].trim().toUpperCase());
            p2 = str2Array(args[1].trim().toUpperCase());
 
+           CardHand player1 = new CardHand(args[0]);
+
 
         } else {
             // '1H 4H 6H JH 8H'
             // '2C 2D 5H TS KS'
+
+            /* this works
             CardHand player1 = new CardHand("2C 4D 6H JS 8H");
             int x = Shape.D.ordinal();
             int y = Value.SEVEN.ordinal();
-            //player1.setCardHand("1H 4H 6H JH 8H");
-            //CardHand player2 = new CardHand();
-            //player2.setCardHand("2C 2D 5H TS KS");
+           */
 
             Scanner sc = new Scanner(System.in);
             System.out.print("p1? ");
@@ -46,11 +48,24 @@ public class Main {
             p2 = str2Array(sc.nextLine().trim().toUpperCase());
             sc.close();
         }
+
+        // if one of the cards hans < than zero
+
+
         // Check if error in the data
         if(result != null && result.equals("ERROR")) {
             System.out.println("Result: " + result);
             return;
         }
+
+        // what kind of hand do i have
+
+
+        // compaure with other hand
+
+
+
+
         // Do the comparison and store the result
         result = comp(findComb(p1), findComb(p2));
         //Display the winner.
