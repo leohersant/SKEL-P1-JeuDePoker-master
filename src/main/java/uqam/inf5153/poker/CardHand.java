@@ -20,7 +20,7 @@ enum Shape {
 
 public class CardHand {
 
-    private Character[] values = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
+    private Character[] values = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
     private Character[] shapes = { 'C', 'D', 'H', 'S' };
     private Set<Character> setOfValues = new HashSet<>(Arrays.asList(values));
     private Set<Character> setOfShapes = new HashSet<>(Arrays.asList(shapes));
@@ -71,6 +71,7 @@ public class CardHand {
         }
     }
 
+    // TODO:: players can not have the same card twice
     private boolean isValidHand(String hand) {
         String[] cards = hand.split(" ");
         if (cards.length != 5)
