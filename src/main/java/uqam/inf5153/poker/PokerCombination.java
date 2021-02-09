@@ -5,14 +5,20 @@ import java.util.Collections;
 
 public class PokerCombination {
 
-    private String pokerCombination;
-
     public PokerCombination() {
     }
 
-    public String findCombination(CardHand pokerHand) {
-        ArrayList<Card> cards = pokerHand.getHand();
-        return "the combination";
+    public String detect(CardHand pokerHand) {
+        if(royalFlush(pokerHand)) return "royalFlush";
+        if(straightFlush(pokerHand)) return "straightFlush";
+        if(fourOfAKind(pokerHand)) return "fourOfAKind";
+        if(fullHouse(pokerHand)) return "fullHouse";
+        if(flush(pokerHand)) return "flush";
+        if(straight(pokerHand)) return "straight";
+        if(threeOfAKind(pokerHand)) return "threeOfAKind";
+        if(twoPair(pokerHand)) return "twoPair";
+        if(onePair(pokerHand)) return "onePair";
+        return highCard(pokerHand).toString();
     }
 
     public boolean royalFlush(CardHand pokerHand) {
@@ -103,7 +109,7 @@ public class PokerCombination {
                 }
             }
         }
-        if (numberOfPairs == 2) 
+        if (numberOfPairs == 2)
             return true;
         return false;
     }

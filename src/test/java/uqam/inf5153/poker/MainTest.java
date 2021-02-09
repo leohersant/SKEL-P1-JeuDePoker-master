@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class MainTest {
 
     @Before
@@ -29,6 +31,51 @@ public class MainTest {
         Card c1 = new Card(Value.TWO, Shape.S);
         Card c2 = new Card(Value.TWO, Shape.S);
         assertEquals(c1.hashCode(), c2.hashCode());
+    }
+
+    @Test
+    public void Detect1(){
+        CardHand pokerHand = new CardHand("2C 4C 6C JC 8C");
+        PokerCombination combination = new PokerCombination();
+        String isAFlush = combination.detect(pokerHand);
+        assertEquals("flush", isAFlush);
+    }
+
+    @Test
+    public void Detect2(){
+        CardHand pokerHand = new CardHand("TH JH QH KH AH");
+        PokerCombination combination = new PokerCombination();
+        String isARoyalFlush = combination.detect(pokerHand);
+        assertEquals("royalFlush", isARoyalFlush);
+    }
+
+    @Test
+    public void EvaluateHands(){
+        CardHand pokerHand1 = new CardHand("TH JH QH KH AH");
+        CardHand pokerHand2 = new CardHand("2C 4C 6C JC 8C");
+
+        PokerCombination combination = new PokerCombination();
+
+        String royalFlush = combination.detect(pokerHand1);
+        String flush = combination.detect(pokerHand1);
+
+        ArrayList<String> pokerHands = new ArrayList<>();
+        pokerHands.add(royalFlush);
+        pokerHands.add(flush);
+
+        Dealer referee = new Dealer();
+
+        Ranking x = referee.tellWinner(pokerHands);
+
+        assertEquals(Ranking.royalFlush, x);
+    }
+
+    @Test
+    public void Detect3(){
+        CardHand pokerHand = new CardHand("QS AH 5D TC 6S");
+        PokerCombination combination = new PokerCombination();
+        String highCard = combination.detect(pokerHand);
+        assertEquals("ACE", highCard);
     }
 
     @Test

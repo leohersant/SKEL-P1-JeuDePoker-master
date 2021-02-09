@@ -20,6 +20,21 @@ package uqam.inf5153.poker {
     - getTable(): Map<Char, Int>
   }
 
+  class PokerCombination {
+    --
+    -detect(pokerHand: CardHand)
+    -royalFlush(pokerHand:CardHand)
+    -straightFlush(pokerHand:CardHand)
+    -flush(pokerHand:CardHand)
+    -straight(pokerHand:CardHand)
+    -fourOfAKind(pokerHand:CardHand)
+    -fullHouse(pokerHand:CardHand)
+    -threeOfAKind(pokerHand:CardHand)
+    -onePair(pokerHand:CardHand)
+    -twoPair(pokerHand:CardHand)
+    -highCard(pokerHand:CardHand)
+  }
+
   class CardHand {
    ArrayList<Card> cardHand;
    --
@@ -39,6 +54,7 @@ package uqam.inf5153.poker {
   }
 
 CardHand--Card
+PokerCombination--CardHand
 
 }
 
