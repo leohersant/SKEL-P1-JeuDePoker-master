@@ -2,10 +2,7 @@ package uqam.inf5153.poker;
 
 import java.util.*;
 
-enum Ranking {
-    highCard, onePair, twoPair, threeOfAKind, straight,
-    flush, fullHouse, fourOfAKind, straightFlush, royalFlush
-}
+
 
 /**
  * Card value: ZERO, ONE do not exist in this game.
@@ -30,7 +27,6 @@ public class CardHand {
     private Set<Character> setOfValues = new HashSet<>(Arrays.asList(values));
     private Set<Character> setOfShapes = new HashSet<>(Arrays.asList(shapes));
     private ArrayList<Card> cardHand = new ArrayList<Card>();
-    String ranking;
 
     public CardHand(String hand) {
         String h = hand.trim().toUpperCase();
@@ -97,9 +93,7 @@ public class CardHand {
         return cardHand;
     }
 
-    public String getRanking() {
-        return ranking;
-    }
+
 
     // TODO:: players can not have the same card twice
     private boolean isValidHand(String hand) {
@@ -113,10 +107,6 @@ public class CardHand {
                 return false;
         }
         return true;
-    }
-
-    public void setCardHand(String ranking) {
-        this.ranking = ranking;
     }
 
     private String[] strHandToArray(String hand) {

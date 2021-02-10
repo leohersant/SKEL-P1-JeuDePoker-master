@@ -5,52 +5,41 @@ import java.util.Collections;
 
 public class Dealer {
 
+    private String winner;
+    // problem of ties
+    // problem of loosers
 
-    public Dealer() {
+    public Dealer(){};
+    public Player findWinner(ArrayList<Player> players) {
 
+        ArrayList<Ranking> rankings = new ArrayList<>(); // hold the ranking of each player
+        for(Player player: players) {
+            rankings.add(player.getPokerCombination());
+        }
+        Ranking highestRank = this.findHighestHand(rankings);
+
+        for(Player player: players) {
+            if(player.getPokerCombination() == highestRank){
+                this.winner = player.getName();
+                return player;
+            }
+        }
+        return null; // comeback!!!
     }
 
-    public Ranking tellWinner(ArrayList<String> listOfPokerHands) {
-
-        ArrayList<Ranking> handsPlaying = new ArrayList<>();
-
-        for(String pokerHand: listOfPokerHands){
-
-            handsPlaying.add(strToRanking(pokerHand));
-        }
-        return Collections.max(handsPlaying);
+    // Score
+    public Player addToScore(Player player) {
+        int score = player.getScore() + 2;
+        player.setScore(score);
+        return player;
     }
 
-    private Ranking strToRanking(String pokerHand){
-        switch (pokerHand) {
-            case "highCard":
-                return Ranking.highCard;
-            case "onePair":
-                return Ranking.onePair;
-            case "twoPair":
-                return Ranking.twoPair;
-            case "threeOfAKind":
-                return Ranking.threeOfAKind;
-            case "straight":
-                return Ranking.straight;
-            case "flush":
-                return Ranking.flush;
-            case "fullHouse":
-                return Ranking.fullHouse;
-            case "fourOfAKind":
-                return Ranking.fourOfAKind;
-            case "straightFlush":
-                return Ranking.straightFlush;
-            case "royalFlush":
-                return Ranking.royalFlush;
-            default:
-                return Ranking.highCard;
-        }
+    private Ranking findHighestHand(ArrayList<Ranking> rankings) {
+        return Collections.max(rankings);
+    }
+
+    public String tellWinner(){
+        return this.winner;
     }
 
 }
-/*
-* , , , , ,
-    , , , ,
-*
-* */

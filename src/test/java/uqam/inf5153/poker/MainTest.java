@@ -16,6 +16,37 @@ public class MainTest {
     }
 
     @Test
+    public void findWinnerWith2Players() {
+        Player player1 = new Player("P1", "2C 4C 6C JC 8C"); // flush
+        Player player2 = new Player("P2", "TH JH QH KH AH"); // royalFlush
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+
+        Player winner = new Dealer().findWinner(players);
+        assertEquals(player2, winner);
+    }
+
+    @Test
+    public void winnerScore() {
+        Player player1 = new Player("P1", "2C 4C 6C JC 8C"); // flush
+        Player player2 = new Player("P2", "TH JH QH KH AH"); // royalFlush
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+
+        Dealer referee = new Dealer();
+        Player winner = referee.findWinner(players);
+        referee.addToScore(winner);
+
+        int score = winner.getScore();
+
+        assertEquals(2, score);
+    }
+
+    @Test
     public void CardEquals() {
         Card c1 = new Card(Value.TWO, Shape.S);
         Card c2 = new Card(Value.TWO, Shape.S);
@@ -37,142 +68,26 @@ public class MainTest {
     public void Detect1(){
         CardHand pokerHand = new CardHand("2C 4C 6C JC 8C");
         PokerCombination combination = new PokerCombination();
-        String isAFlush = combination.detect(pokerHand);
-        assertEquals("flush", isAFlush);
+        Ranking isAFlush = combination.detect(pokerHand);
+        assertEquals(Ranking.flush, isAFlush);
     }
 
     @Test
     public void Detect2(){
         CardHand pokerHand = new CardHand("TH JH QH KH AH");
         PokerCombination combination = new PokerCombination();
-        String isARoyalFlush = combination.detect(pokerHand);
-        assertEquals("royalFlush", isARoyalFlush);
-    }
-
-    @Test
-    public void EvaluateHands(){
-        CardHand pokerHand1 = new CardHand("TH JH QH KH AH");
-        CardHand pokerHand2 = new CardHand("2C 4C 6C JC 8C");
-
-        PokerCombination combination = new PokerCombination();
-
-        String royalFlush = combination.detect(pokerHand1);
-        String flush = combination.detect(pokerHand1);
-
-        ArrayList<String> pokerHands = new ArrayList<>();
-        pokerHands.add(royalFlush);
-        pokerHands.add(flush);
-
-        Dealer referee = new Dealer();
-
-        Ranking x = referee.tellWinner(pokerHands);
-
-        assertEquals(Ranking.royalFlush, x);
+        Ranking isARoyalFlush = combination.detect(pokerHand);
+        assertEquals(Ranking.royalFlush, isARoyalFlush);
     }
 
     @Test
     public void Detect3(){
         CardHand pokerHand = new CardHand("QS AH 5D TC 6S");
         PokerCombination combination = new PokerCombination();
-        String highCard = combination.detect(pokerHand);
-        assertEquals("ACE", highCard);
+        Ranking highCard = combination.detect(pokerHand);
+        assertEquals(Ranking.highCard, highCard);
     }
 
-    @Test
-    public void flush() {
-        CardHand pokerHand = new CardHand("2C 4C 6C JC 8C");
-        PokerCombination combination = new PokerCombination();
-        boolean isAFlush = combination.flush(pokerHand);
-        assertEquals(true, isAFlush);
-    }
-
-    @Test
-    public void notFlush() {
-        CardHand pokerHand = new CardHand("2C 4C 6D JH 8S");
-        PokerCombination combination = new PokerCombination();
-        boolean isAFlush = combination.flush(pokerHand);
-        assertEquals(false, isAFlush);
-    }
-
-    @Test
-    public void royalFlush() {
-        CardHand pokerHand = new CardHand("TH JH QH KH AH");
-        PokerCombination combination = new PokerCombination();
-        boolean isARoyalFlush = combination.royalFlush(pokerHand);
-        assertTrue(isARoyalFlush);
-    }
-
-    @Test
-    public void straightFlush() {
-        CardHand pokerHand = new CardHand("TH JH QH KH AH");
-        PokerCombination combination = new PokerCombination();
-        boolean isAStraightFlush = combination.straightFlush(pokerHand);
-        assertTrue(isAStraightFlush);
-    }
-
-    @Test
-    public void straight() {
-        CardHand pokerHand = new CardHand("TC JC QD KH AS");
-        PokerCombination combination = new PokerCombination();
-        boolean isAStraight = combination.straight(pokerHand);
-        assertTrue(isAStraight);
-    }
-
-    @Test
-    public void notStraight() {
-        CardHand pokerHand = new CardHand("2C 4C 6D JH 8S");
-        PokerCombination combination = new PokerCombination();
-        boolean isAStraight = combination.straight(pokerHand);
-        assertEquals(false, isAStraight);
-    }
-
-    @Test
-    public void fourOfAKind() {
-        CardHand pokerHand = new CardHand("QH QS QD 5C QC");
-        PokerCombination combination = new PokerCombination();
-        boolean isAfourOfAkind = combination.fourOfAKind(pokerHand);
-        assertTrue(isAfourOfAkind);
-    }
-
-    @Test
-    public void threeOfAKind() {
-        CardHand pokerHand = new CardHand("QH QS QD 7C 6S");
-        PokerCombination combination = new PokerCombination();
-        boolean isAthreeOfAkind = combination.threeOfAKind(pokerHand);
-        assertTrue(isAthreeOfAkind);
-    }
-
-    @Test
-    public void onePair() {
-        CardHand pokerHand = new CardHand("QH QS 6D 7C 6S");
-        PokerCombination combination = new PokerCombination();
-        boolean isOnePair = combination.onePair(pokerHand);
-        assertTrue(isOnePair);
-    }
-
-    @Test
-    public void fullHouse() {
-        CardHand pokerHand = new CardHand("AD AS AH 7C 7D");
-        PokerCombination combination = new PokerCombination();
-        boolean isFullHouse = combination.fullHouse(pokerHand);
-        assertTrue(isFullHouse);
-    }
-
-    @Test
-    public void twoPair() {
-        CardHand pokerHand = new CardHand("QS QH 9D 9C 7D");
-        PokerCombination combination = new PokerCombination();
-        boolean isTwoPair = combination.twoPair(pokerHand);
-        assertTrue(isTwoPair);
-    }
-
-    @Test
-    public void highCard() {
-        CardHand pokerHand = new CardHand("QS AH 5D TC 6S");
-        PokerCombination combination = new PokerCombination();
-        Value highCard = combination.highCard(pokerHand);
-        assertEquals(Value.ACE, highCard);
-    }
 
 
     // P1 Wins
