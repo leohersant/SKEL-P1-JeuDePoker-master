@@ -40,6 +40,9 @@ public class CardHand {
         }
     }
 
+    public ArrayList<Card> getHand() {
+        return cardHand;
+    }
 
     private static Map<Character, Value> charToValue() {
         HashMap<Character, Value> map = new HashMap<>();
@@ -69,21 +72,17 @@ public class CardHand {
         return map;
     }
 
-    public ArrayList<Card> getHand() {
-        return cardHand;
-    }
-
     // returns the highest card in a card hand
     public Card getHighestCard() {
         Value maxVal = getHighestCardValue();
-        Color col = getColorHighestCard(maxVal);
+        Color col = getColor(maxVal);
         return new Card(maxVal, col);
     }
 
-    private Color getColorHighestCard(Value highestCard){
+    private Color getColor(Value cardValue){
         Color col = null;
         for (Card card : this.getHand()){
-            if (card.getValue().ordinal() == highestCard.ordinal())
+            if (card.getValue().ordinal() == cardValue.ordinal())
                 return (card.getColor());
         }
         return col;

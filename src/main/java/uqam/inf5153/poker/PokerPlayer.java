@@ -19,7 +19,7 @@ public class PokerPlayer extends Player implements Poker {
 
     @Override
     public CardHand createCardHand(String cardHand) {
-        return (new CardHand(cardHand));
+        return (new PokerCombination(cardHand));
     }
 
     @Override

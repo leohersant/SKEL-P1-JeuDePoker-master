@@ -5,8 +5,6 @@ public class Player {
     private String name;
     private int score;
 
-    Player() {}
-
     public Player(String name) {
         this.name = name;
         this.score = 0;

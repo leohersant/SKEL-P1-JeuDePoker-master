@@ -5,20 +5,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PokerReferee {
 
-    private String message; // tell the tie/winner
+    private String message; // tell winner/tie
     private ArrayList<PokerPlayer> players;
 
     public PokerReferee(ArrayList<PokerPlayer> players) {
         Ranking highestRank = getHighestHand(getAllCombinations(players));
         if (highestRank == Ranking.highCard) {
             Value key = Collections.max(getHighestCardValues(players));
-            this.message = buildWinnerHigCardMessage(players, key);
+            this.message = buildWinnerHighCardMessage(players, key);
         } else if (tie(players)) {
             this.message = buildTieMessage(players);
             this.players = addToScore(players);
         } else {
-            ArrayList winners = getWinners(players, highestRank);
-            this.message = buildWinnerMessage(winners, getLoosers(players, highestRank));
+            ArrayList winners = findWinners(players, highestRank);
+            this.message = buildWinnerMessage(winners, findLoosers(players, highestRank));
             this.players = addToScore(winners);
         }
     }
@@ -26,14 +26,11 @@ public class PokerReferee {
     public String getMessage() {
         return this.message;
     }
-
     public ArrayList<PokerPlayer> getPlayers() {
         return players;
     }
 
-    /*
-     * Get all poker combinations from players
-     */
+
     private ArrayList<Ranking> getAllCombinations(ArrayList<PokerPlayer> players) {
         ArrayList<Ranking> pokerCombinations = new ArrayList<>(); // it holds the ranking of each player
         for (PokerPlayer player : players)
@@ -48,7 +45,7 @@ public class PokerReferee {
     /*
      *  Find who are the loosers with less than highest combination
      */
-    private ArrayList<PokerPlayer> getLoosers(ArrayList<PokerPlayer> players, Ranking highestRank) {
+    private ArrayList<PokerPlayer> findLoosers(ArrayList<PokerPlayer> players, Ranking highestRank) {
         ArrayList<PokerPlayer> playerList = new ArrayList<>();
         for (PokerPlayer player : players) {
             if (player.getPokerCombination() != highestRank) {
@@ -65,8 +62,8 @@ public class PokerReferee {
      *  T T L (two winners, one looser)
      *  W T T (one winner, two loosers)
      */
-    private ArrayList<Player> getWinners(ArrayList<PokerPlayer> players, Ranking highestRank) {
-        ArrayList<Player> playerList = new ArrayList<>();
+    private ArrayList<PokerPlayer> findWinners(ArrayList<PokerPlayer> players, Ranking highestRank) {
+        ArrayList<PokerPlayer> playerList = new ArrayList<>();
         for (PokerPlayer player : players) {
             if (player.getPokerCombination() == highestRank) {
                 playerList.add(player);
@@ -91,7 +88,7 @@ public class PokerReferee {
         return msg.toString();
     }
 
-    // "couleur à trèfle pour J1 bat | une paire de rois pour J2"
+    // "couleur à trèfle pour J1 bat une paire de rois pour J2"
     private String buildWinnerMessage(ArrayList<PokerPlayer> winners, ArrayList<PokerPlayer> loosers) {
         return winnersMsg(winners) + " bat " + loosersMsg(loosers);
     }
@@ -128,7 +125,7 @@ public class PokerReferee {
         return highestValues;
     }
 
-    private String buildWinnerHigCardMessage(ArrayList<PokerPlayer> players, Value max) {
+    private String buildWinnerHighCardMessage(ArrayList<PokerPlayer> players, Value max) {
         for (PokerPlayer player : players) {
             if (player.getHighestCard().getValue() == max) {
                 return (player.getPokerCombination() + " pour " + player.getName() + " avec " + player.getHighestCard().toString());
