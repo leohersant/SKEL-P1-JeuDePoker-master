@@ -2,15 +2,19 @@ package uqam.inf5153.poker;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import static java.util.Collections.frequency;
 
 enum Ranking {
     highCard, onePair, twoPair, threeOfAKind, straight,
     flush, fullHouse, fourOfAKind, straightFlush, royalFlush
 }
 
-public class PokerCombination {
+public class PokerCombination extends CardHand{
 
-    public PokerCombination() {
+    public PokerCombination (){}
+
+    public PokerCombination(String hand) {
+        super(hand);
     }
 
     public Ranking detect(CardHand pokerHand) {
@@ -30,24 +34,20 @@ public class PokerCombination {
         boolean isStraight = straight(pokerHand);
         int firstCardValue = pokerHand.getHand().get(0).getValue().ordinal();
         boolean isFlush = flush(pokerHand);
-        if (isStraight && isFlush && (firstCardValue == Value.TEN.ordinal()))
-            return true;
-        return false;
+        return isStraight && isFlush && (firstCardValue == Value.TEN.ordinal());
     }
 
     private boolean straightFlush(CardHand pokerHand) {
         boolean isStraight = straight(pokerHand);
         boolean isFlush = flush(pokerHand);
-        if (isStraight && isFlush)
-            return true;
-        return false;
+        return isStraight && isFlush;
     }
 
     private boolean flush(CardHand pokerHand) {
         ArrayList<Card> cards = pokerHand.getHand();
-        Shape shapeFirstCard = cards.get(0).getShape();
+        Color colorFirstCard = cards.get(0).getColor();
         for (Card card : cards) {
-            if (card.getShape() != shapeFirstCard)
+            if (card.getColor() != colorFirstCard)
                 return false;
         }
         return true;
@@ -66,7 +66,7 @@ public class PokerCombination {
     private boolean fourOfAKind(CardHand pokerHand) {
         ArrayList<Value> values = extractValuesFromPokerHand(pokerHand);
         for (Value cardValue : values) {
-            int fourCardsWithSameValue = Collections.frequency(values, cardValue);
+            int fourCardsWithSameValue = frequency(values, cardValue);
             if (fourCardsWithSameValue == 4)
                 return true;
         }
@@ -76,15 +76,13 @@ public class PokerCombination {
     private boolean fullHouse(CardHand pokerHand) {
         boolean isThreeOfAKind = threeOfAKind(pokerHand);
         boolean isOnePair = onePair(pokerHand);
-        if (isThreeOfAKind && isOnePair)
-            return true;
-        return false;
+        return isThreeOfAKind && isOnePair;
     }
 
     private boolean threeOfAKind(CardHand pokerHand) {
         ArrayList<Value> values = extractValuesFromPokerHand(pokerHand);
         for (Value cardValue : values) {
-            int threeCardsWithSameValue = Collections.frequency(values, cardValue);
+            int threeCardsWithSameValue = frequency(values, cardValue);
             if (threeCardsWithSameValue == 3)
                 return true;
         }
@@ -94,7 +92,7 @@ public class PokerCombination {
     private boolean onePair(CardHand pokerHand) {
         ArrayList<Value> values = extractValuesFromPokerHand(pokerHand);
         for (Value cardValue : values) {
-            int oneCardWithSameValue = Collections.frequency(values, cardValue);
+            int oneCardWithSameValue = frequency(values, cardValue);
             if (oneCardWithSameValue == 2)
                 return true;
         }
@@ -106,7 +104,7 @@ public class PokerCombination {
         int numberOfPairs = 0;
         Value v = Value.ZERO;
         for (Value cardValue : values) {
-            int twoCardsWithSameValue = Collections.frequency(values, cardValue);
+            int twoCardsWithSameValue = frequency(values, cardValue);
             if (twoCardsWithSameValue == 2) {
                 if (v != cardValue) {
                     numberOfPairs++;
@@ -114,14 +112,7 @@ public class PokerCombination {
                 }
             }
         }
-        if (numberOfPairs == 2)
-            return true;
-        return false;
-    }
-
-    private Value highCard(CardHand pokerHand) {
-        ArrayList<Value> values = extractValuesFromPokerHand(pokerHand);
-        return Collections.max(values);
+        return numberOfPairs == 2;
     }
 
     private ArrayList<Value> extractValuesFromPokerHand(CardHand pokerHand) {

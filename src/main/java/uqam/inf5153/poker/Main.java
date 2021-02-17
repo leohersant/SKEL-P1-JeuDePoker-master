@@ -7,8 +7,6 @@ import java.util.*;
  */
 public class Main {
 
-    // The result of the game
-    static String result;
 
 
     /**
@@ -17,19 +15,22 @@ public class Main {
      */
     public static void main(String[] args) {
 
-       // System.out.println("ACE = " + Value.ACE.isWorth());
-
-        // Variables initialization
-        String[] p1, p2; // old code
-
         // Data origin
         if (args.length == 2) {
-            // Use the given arguments as data
-           p1 = str2Array(args[0].trim().toUpperCase());
-           p2 = str2Array(args[1].trim().toUpperCase());
 
-           CardHand player1 = new CardHand(args[0]);
+            for (String s: args) {
+                System.out.println(s);
+            }
 
+            PokerPlayer player1 = new PokerPlayer("P1", args[0]);
+            PokerPlayer player2 = new PokerPlayer("P2", args[1]);
+
+            ArrayList<PokerPlayer> players = new ArrayList<>();
+            players.add(player1);
+            players.add(player2);
+
+            PokerReferee pokerReferee = new PokerReferee(players);
+            System.out.println(pokerReferee.getMessage());
 
         } else {
             // '1H 4H 6H JH 8H'
@@ -43,33 +44,37 @@ public class Main {
 
             Scanner sc = new Scanner(System.in);
             System.out.print("p1? ");
-            p1 = str2Array(sc.nextLine().trim().toUpperCase());
+            String hand1 = sc.nextLine().trim().toUpperCase();
             System.out.print("p2? ");
-            p2 = str2Array(sc.nextLine().trim().toUpperCase());
+            String hand2 = sc.nextLine().trim().toUpperCase();
             sc.close();
-        }
 
-        // if one of the cards hans < than zero
+            PokerPlayer player1 = new PokerPlayer("P1", hand1); // flush
+            PokerPlayer player2 = new PokerPlayer("P2", hand2); // royalFlush
 
+            ArrayList<PokerPlayer> players = new ArrayList<>();
+            players.add(player1);
+            players.add(player2);
 
-        // Check if error in the data
-        if(result != null && result.equals("ERROR")) {
+            PokerReferee pokerReferee = new PokerReferee(players);
+            System.out.println(pokerReferee.getMessage());
+
+            /*
+            // Do the comparison and store the result
+            result = comp(findComb(p1), findComb(p2));
+
+            // Check if error in the data
+            if(result != null && result.equals("ERROR")) {
+                System.out.println("Result: " + result);
+                return;
+            }
+
+            //Display the winner.
             System.out.println("Result: " + result);
-            return;
+            */
+
         }
 
-        // what kind of hand do i have
-
-
-        // compaure with other hand
-
-
-
-
-        // Do the comparison and store the result
-        result = comp(findComb(p1), findComb(p2));
-        //Display the winner.
-        System.out.println("Result: " + result);
     }
 
     /**
@@ -79,6 +84,7 @@ public class Main {
      * @param s the hand of the player, e.g., "1C 2C TD JH JS"
      * @return the hand as separated card encoded as strings, ["1C", "2C", "TD", "JH", "JS"]
      */
+    /*
     private static String[] str2Array(String s) {
         Character[] vSymb = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
         Set<Character> vs = new HashSet<>(Arrays.asList(vSymb));
@@ -95,40 +101,14 @@ public class Main {
         }
         return data;
     }
-
+*/
     /**
      * Find the highest combination in a hand. We detect flush (F), pair (P), and highest card (H)
      * for now. The result is the combination detected, followed by its highest card (to avoid ex-aequo).
      * @param cs the hand, e.g., ["1C", "2C", "TD", "JH", "JS"]
      * @return the highest combination, e.g., "P J" (as the example contains a Pair of Jacks)
      */
-    private static String findComb(String[] cs) {
-        // Detect a flush
-        char col = cs[0].charAt(1);
-        boolean f = true;
-        for(String c: cs) {
-            if (c.charAt(1) != col)
-                f = false;
-        }
-        if(f)
-            return "F " + maxVal(cs);
 
-        // Detect a pair
-        char vMax = 'X';
-        for(int i = 0; i < cs.length; i++) {
-            for(int j = i+1; j < cs.length; j++) {
-                if (cs[i].charAt(0) == cs[j].charAt(0)
-                        && (vMax == 'X' || getTable().get(cs[i].charAt(0)) > getTable().get(vMax))) {
-                    vMax = cs[i].charAt(0);
-                }
-            }
-        }
-        if(vMax != 'X')
-            return "P " + vMax;
-
-        // Nothing interesting => Highest card
-        return "H " + maxVal(cs);
-    }
 
     /**
      * Compare two combinations, and returns the winner among p1 or p2, or tie if ex-aequo.
@@ -137,6 +117,7 @@ public class Main {
      * @param p2 the combination of p2, e.g., "F T"
      * @return P1 if p1 wins, P2 if p2 wins, TIE elsewhere (here P2)
      */
+    /*
     private static String comp(String p1, String p2) {
         if(p1.startsWith("F")) {
             if (p2.startsWith("F"))
@@ -159,12 +140,13 @@ public class Main {
             return tie(p1,p2);
         }
     }
-
+*/
     /**
      * find the highest card in a given hand
      * @param cs the hand to analyse, e.g., ["1C", "2C", "TD", "JH", "JS"]
      * @return the highest card code, here "J"
      */
+    /*
     private static char maxVal(String[] cs) {
         int max = getTable().get(cs[0].charAt(0));
         char result = cs[0].charAt(0);
@@ -176,31 +158,7 @@ public class Main {
         }
         return result;
     }
+*/
 
-    /**
-     * When to hands contains the same combination, returns the highest one, or tie if truly equivalent;
-     * @param p1 the combination in p1's hand, e.g., "P J"
-     * @param p2 the combination in p2's hand, e.g., "P Q"
-     * @return P1 if p1 wins, P2 if p2 wins, TIE elsewhere (here P2)
-     */
-    private static String tie(String p1, String p2) {
-        if(getTable().get(p1.charAt(2)).equals(getTable().get(p2.charAt(2))))
-            return "TIE";
-        return (getTable().get(p1.charAt(2)) > getTable().get(p2.charAt(2)) ? "P1" : "P2");
-    }
-
-    /**
-     * Build the comparaison table used to compare cards (ace is 1, two is 2, ..., queen is 12 and King is 13).
-     * @return the comparison table stored in a Map.
-     */
-    private static Map<Character, Integer> getTable() {
-        Map<Character, Integer> map = new HashMap<>();
-        map.put('1', 1);  map.put('2', 2);  map.put('3', 3);
-        map.put('4', 4);  map.put('5', 5);  map.put('6', 6);
-        map.put('7', 7);  map.put('8', 8);  map.put('9', 9);
-        map.put('T', 10); map.put('J', 11); map.put('Q', 12);
-        map.put('K', 13);
-        return map;
-    }
 
 }

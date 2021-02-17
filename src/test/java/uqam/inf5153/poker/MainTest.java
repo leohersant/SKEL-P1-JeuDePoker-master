@@ -2,54 +2,22 @@ package uqam.inf5153.poker;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 public class MainTest {
 
+    /*
     @Before
     public void initResult() {
         Main.result = null;
     }
-
-    @Test
-    public void findWinnerWith2Players() {
-        Player player1 = new Player("P1", "2C 4C 6C JC 8C"); // flush
-        Player player2 = new Player("P2", "TH JH QH KH AH"); // royalFlush
-
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
-
-        Player winner = new Dealer().findWinner(players);
-        assertEquals(player2, winner);
-    }
-
-    @Test
-    public void winnerScore() {
-        Player player1 = new Player("P1", "2C 4C 6C JC 8C"); // flush
-        Player player2 = new Player("P2", "TH JH QH KH AH"); // royalFlush
-
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
-
-        Dealer referee = new Dealer();
-        Player winner = referee.findWinner(players);
-        referee.addToScore(winner);
-
-        int score = winner.getScore();
-
-        assertEquals(2, score);
-    }
-
+*/
     @Test
     public void CardEquals() {
-        Card c1 = new Card(Value.TWO, Shape.S);
-        Card c2 = new Card(Value.TWO, Shape.S);
+        Card c1 = new Card(Value.TWO, Color.S);
+        Card c2 = new Card(Value.TWO, Color.S);
         if (c1.equals(c2)) {
             assertEquals(1, 1);
         } else {
@@ -59,21 +27,139 @@ public class MainTest {
 
     @Test
     public void CardHash() {
-        Card c1 = new Card(Value.TWO, Shape.S);
-        Card c2 = new Card(Value.TWO, Shape.S);
+        Card c1 = new Card(Value.TWO, Color.S);
+        Card c2 = new Card(Value.TWO, Color.S);
         assertEquals(c1.hashCode(), c2.hashCode());
     }
 
     @Test
-    public void Detect1(){
+    public void highestCard2Players() {
+
+        PokerPlayer player1 = new PokerPlayer("P1", "1S 4C KH TD 3S"); // highest
+        PokerPlayer player2 = new PokerPlayer("P2", "AH QS 6S 5D TC"); // highest wins
+
+        ArrayList<PokerPlayer> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+
+        PokerReferee pokerReferee = new PokerReferee(players);
+        String temp = pokerReferee.getMessage();
+        assertEquals("highCard pour P2 avec ACEH", temp);
+    }
+
+    @Test
+    public void findTie2Players() {
+        PokerPlayer player1 = new PokerPlayer("P1", "2C 4C 6C JC 8C"); // flush
+        PokerPlayer player2 = new PokerPlayer("P2", "2C 4C 6C JC 8C"); // royalFlush
+
+        ArrayList<PokerPlayer> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+
+        PokerReferee pokerReferee = new PokerReferee(players);
+        String temp = pokerReferee.getMessage();
+        assertEquals("Égalité entre les joueurs P1 et P2 avec un flush.", temp);
+    }
+
+    @Test
+    public void findTie3Players() {
+        PokerPlayer player1 = new PokerPlayer("P1", "2C 4C 6C JC 8C"); // flush
+        PokerPlayer player2 = new PokerPlayer("P2", "2C 4C 6C JC 8C"); // royalFlush
+        PokerPlayer player3 = new PokerPlayer("P2", "2C 4C 6C JC 8C"); // royalFlush
+
+        ArrayList<PokerPlayer> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+
+        PokerReferee pokerReferee = new PokerReferee(players);
+        String temp = pokerReferee.getMessage();
+
+        Ranking a = player1.getPokerCombination();
+        Ranking b = player1.getPokerCombination();
+        Ranking c = player1.getPokerCombination();
+
+        boolean x = false;
+        if (a == b && b == c)
+            x = true;
+        assertTrue(x);
+    }
+
+    @Test
+    public void findWinner2Players() {
+        PokerPlayer player1 = new PokerPlayer("P1", "2C 4C 6C JC 8C"); // flush
+        PokerPlayer player2 = new PokerPlayer("P2", "TH JH QH KH AH"); // royalFlush
+
+        ArrayList<PokerPlayer> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+
+        PokerReferee pokerReferee = new PokerReferee(players);
+        //referee.verdict(players);
+        String temp = pokerReferee.getMessage();
+        assertEquals("royalFlush pour P2 bat flush pour P1.", temp);
+    }
+
+    @Test
+    public void findWinner3Players() {
+        PokerPlayer player1 = new PokerPlayer("P1", "2C 4C 6C JC 8C"); // flush looser
+        PokerPlayer player2 = new PokerPlayer("P2", "TH JH QH KH AH"); // royalFlush winner
+        PokerPlayer player3 = new PokerPlayer("P2", "TH JH QH KH AH"); // winner
+
+        ArrayList<PokerPlayer> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+
+        PokerReferee pokerReferee = new PokerReferee(players);
+
+        boolean x = false;
+        if (player2.getPokerCombination() == Ranking.royalFlush && player2.getPokerCombination() == Ranking.royalFlush) {
+            x = true;
+        }
+
+        assertTrue(x);
+    }
+
+
+    @Test
+    public void scoreTie2Players() {
+        PokerPlayer player1 = new PokerPlayer("P1", "2C 4C 6C JC 8C"); // flush
+        PokerPlayer player2 = new PokerPlayer("P2", "2C 4C 6C JC 8C"); // royalFlush
+
+        ArrayList<PokerPlayer> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+
+        PokerReferee pokerReferee = new PokerReferee(players);
+        assertEquals(player1.getScore(), player2.getScore());
+    }
+
+    @Test
+    public void scoreWinner2Players() {
+        PokerPlayer player1 = new PokerPlayer("P1", "2C 4C 6C JC 8C"); // flush
+        PokerPlayer player2 = new PokerPlayer("P2", "TH JH QH KH AH"); // royalFlush
+
+        ArrayList<PokerPlayer> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+
+        PokerReferee pokerReferee = new PokerReferee(players);
+        assertEquals(1, player2.getScore());
+    }
+
+
+    @Test
+    public void DetectAFlush() {
         CardHand pokerHand = new CardHand("2C 4C 6C JC 8C");
         PokerCombination combination = new PokerCombination();
         Ranking isAFlush = combination.detect(pokerHand);
         assertEquals(Ranking.flush, isAFlush);
     }
 
+    /* Principe de substitution de Liskov: DetectRoyalFlush et DetectRoyalFlush2 */
     @Test
-    public void Detect2(){
+    public void DetectRoyalFlush() {
         CardHand pokerHand = new CardHand("TH JH QH KH AH");
         PokerCombination combination = new PokerCombination();
         Ranking isARoyalFlush = combination.detect(pokerHand);
@@ -81,17 +167,22 @@ public class MainTest {
     }
 
     @Test
-    public void Detect3(){
-        CardHand pokerHand = new CardHand("QS AH 5D TC 6S");
-        PokerCombination combination = new PokerCombination();
-        Ranking highCard = combination.detect(pokerHand);
+    public void DetectRoyalFlush2() {
+        PokerCombination combination = new PokerCombination("TH JH QH KH AH");
+        Ranking isARoyalFlush = combination.detect(combination);
+        assertEquals(Ranking.royalFlush, isARoyalFlush);
+    }
+
+    @Test
+    public void DetectHighCard() {
+        PokerCombination combination = new PokerCombination("QS AH 5D TC 6S");
+        Ranking highCard = (combination.detect(combination));
         assertEquals(Ranking.highCard, highCard);
     }
 
 
-
     // P1 Wins
-
+/*
     @Test
     public void p1F_p2H() {
         String p1 = "2D 5D QD KD 7D";
@@ -212,5 +303,5 @@ public class MainTest {
         Main.main(new String[]{p1, p2});
         assertEquals("ERROR", Main.result);
     }
-
+*/
 }
