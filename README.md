@@ -22,39 +22,39 @@
 
 ### Question 2: Analyse des défauts du code légataire
 
-Voici groso-modo les problématiques vues dans la classe Main
+Voici groso modo les problématiques vues dans la classe «Main»:
 
 #### Le principe de responsabilité unique
 La fonction <em>str2Array(String s)</em> a trop de responsabilité. Elle parse une chaîne de caractère pour séparer les cartes, mais aussi envoie des messages d'erreur pour la validation.
 
 #### Principe d'inversion de dépendance
-La fonction <em>str2Array(String s)</em> est immobile, elle utilise une variable statique (result) de la classe main ce qui ne permet pas de déplacer la fonction à cause de cette dépendance, donc la classe Main a besoin absoluement de cette fonction pour travailler.
+La fonction <em>str2Array(String s)</em> est immobile, elle utilise une variable statique (result) de la classe main ce qui ne permet pas de déplacer la fonction à cause de cette dépendance, donc la classe «Main» a besoin absolument de cette fonction pour travailler.
 
 #### Le principe Open/Close
-* La fonction <em>comp(String p1, String p2)</em> est limité à deux comparaisons et difficilement extensible pour 3 joueurs.
+* La fonction <em>comp(String p1, String p2)</em> est limitée à deux comparaisons et difficilement extensible pour 3 joueurs.
 * La fonction <em>findComb</em>, peut être éclatée en petites fonctions qui pourraient être dans une seule classe. On peut créer une classe, par exemple PokerCombination, qui serait extensible (que l'on ajoute des combinaisons) au lieu de modifier findcomb.
 
 #### Obsession du primitive (encapsulation)
-La fonction maxVal() est supposé de rétourner la carte la plus haute, mais elle retroune un character pour réprésenter la valeur de la carte.
+La fonction maxVal() est supposée de retourner la carte la plus haute, mais elle retourne un caractère pour représenter la valeur de la carte.
 
 
 ### Question 3: Justification des choix de conception
 
 1) Pourquoi les choix de ces concepts?
 
- Il y a deux principaux acteurs lors de cette conception: les joueurs et l'arbitre. La conception s'est basée sur l'idée que chaque joueur détient un combinaison de poker après lui avoir distribué des cartes. De cette façon, une combinaison de poker est une main de poker et une main de poker contient plusieures cartes. Dans mon programme il y a donc 5 classes: Player, Referee, PokerCombination, CardHand et Card. Comme chaque joueur détient un combinaison, ces dernières peuvent êtres analysés par un arbitre qui attribut de points, detecte le ganant et le perdants et annonces qui a gagné. Chaque classe a donc une responsabilité unique, sont extensibles et indépendantes les unes les autres. 
+ Il y a deux principaux acteurs lors de cette conception: les joueurs et l'arbitre. La conception s'est basée sur l'idée que chaque joueur détient une combinaison de poker après lui avoir distribué des cartes. De cette façon, une combinaison de poker est une main de poker et une main de poker contient plusieurs cartes. Dans mon programme il y a donc 5 classes: Player, Referee, PokerCombination, CardHand et Card. Comme chaque joueur détient une combinaison, ces dernières peuvent êtres analysées par un arbitre qui attribue de points, détecte le gagnant et les perdants et annonce qui a gagné. Chaque classe a donc une responsabilité unique, sont extensibles et indépendantes les unes les autres. 
 
 2) Comment ma conception actuelle respecte le principe Solid:
 
-* Chaque classe joue un seul rôle (responsabilité unique). Par exemple, <em>PokerCombination</em> ne fait que detecter les combinations possibles du poker.
-* Facilement extensibles, si l'on decide omettre/ajouter des nouvelles combinaisons de poker. Aussi, la classe <em>CardHand</em> peut être extensible pour un autre jeu de cartes (principe <em>open/close</em>). Dans mon projet <em>PorkerCombination</em> étand <em>CardHand</em>.
+* Chaque classe joue un seul rôle (responsabilité unique). Par exemple, <em>PokerCombination</em> ne fait que détecter les combinaisons possibles du poker.
+* Facilement extensibles, si l'on décide omettre/ajouter des nouvelles combinaisons de poker. Aussi, la classe <em>CardHand</em> peut être extensible pour un autre jeu de cartes (principe <em>open/close</em>). Dans mon projet <em>PorkerCombination</em> étand <em>CardHand</em>.
 * Principe de substitution de Liskov: les objets de classe <em>cardHand</em> (de la super classe) peuvent être remplacés par les objets de la classe <em>PokerCombination</em> (la classe fille). 
-* Principe d'inversion de dépendance: dans mon projet aucune classe de haut niveau dépends des classes de bas niveau.
-* Séparation des interfaces: les classes ne sont pas oubligés d'avoir de méthodes qu'elle n'utilise pas. Ex: <em>Player</em> et <em>PokerPlayer</em>. PokerPlayer utilise une interface pour ne pas emcombrer <em>Player</em>.
+* Principe d'inversion de dépendance: dans mon projet aucune classe de haut niveau dépend des classes de bas niveau.
+* Séparation des interfaces: les classes ne sont pas oubligés d'avoir des méthodes qu'elle n'utilise pas. Ex: <em>Player</em> et <em>PokerPlayer</em>. PokerPlayer utilise une interface pour ne pas encombrer <em>Player</em>.
 
 3) Faiblesses
 
-La classe <em>PokerReferee</em> devrait être une extension de une classe <em>Referee</em>, car elle est trop spécialisée. Aussi on devrait lui faire implementer pour lui dire, voici ce qu'un <em>PokerReferee</em> doit faire. Je devrais peut-être separer les methodes d'affichage qui se trouvent dans <em>PokerReferee</em>.
+La classe <em>PokerReferee</em> devrait être une extension d'une classe <em>Referee</em>, car elle est trop spécialisée. Aussi on devrait lui faire implementer pour lui dire, voici ce qu'un <em>PokerReferee</em> doit faire. Je devrais peut-être séparer les méthodes d'affichage qui se trouvent dans <em>PokerReferee</em>.
 
 
 ### Question 4: Évolution du code objet
