@@ -15,48 +15,50 @@ public class Main {
         // Data origin
         if (args.length == 2) {
 
+            ArrayList<String> errors = new ArrayList<>();
             for (String s: args) {
-                System.out.println(s);
+                errors.add(new Error().isValidHand(s));
             }
 
-            PokerPlayer player1 = new PokerPlayer("P1", args[0]);
-            PokerPlayer player2 = new PokerPlayer("P2", args[1]);
+            if (!errors.contains("Erreur")){
+                PokerPlayer player1 = new PokerPlayer("P1", args[0]);
+                PokerPlayer player2 = new PokerPlayer("P2", args[1]);
 
-            ArrayList<PokerPlayer> players = new ArrayList<>();
-            players.add(player1);
-            players.add(player2);
+                ArrayList<PokerPlayer> players = new ArrayList<>();
+                players.add(player1);
+                players.add(player2);
 
-            PokerReferee pokerReferee = new PokerReferee(players);
-            System.out.println(pokerReferee.getMessage());
+                PokerReferee pokerReferee = new PokerReferee(players);
+                System.out.println(pokerReferee.getMessage());
+            } else
+                System.out.println("Erreur");
 
         } else {
 
             Scanner sc = new Scanner(System.in);
             System.out.print("p1? ");
-            String hand1 = sc.nextLine().trim().toUpperCase();
+            String hand1 = sc.nextLine().trim().toUpperCase(); // Read line
             System.out.print("p2? ");
             String hand2 = sc.nextLine().trim().toUpperCase();
             sc.close();
 
-            PokerPlayer player1 = new PokerPlayer("P1", hand1);
-            PokerPlayer player2 = new PokerPlayer("P2", hand2);
+            ArrayList<String> errors = new ArrayList<>();
+            errors.add(new Error().isValidHand(hand1));
+            errors.add(new Error().isValidHand(hand2));
 
-            ArrayList<PokerPlayer> players = new ArrayList<>();
-            players.add(player1);
-            players.add(player2);
+            if (!errors.contains("Erreur")){
+                PokerPlayer player1 = new PokerPlayer("P1", hand1);
+                PokerPlayer player2 = new PokerPlayer("P2", hand2);
 
-            PokerReferee pokerReferee = new PokerReferee(players);
-            System.out.println(pokerReferee.getMessage());
+                ArrayList<PokerPlayer> players = new ArrayList<>();
+                players.add(player1);
+                players.add(player2);
 
-            /*
-            // Check if error in the data
-            if(result != null && result.equals("ERROR")) {
-                System.out.println("Result: " + result);
-                return;
+                PokerReferee pokerReferee = new PokerReferee(players);
+                System.out.println(pokerReferee.getMessage());
             }
-            */
-
-
+            else
+                System.out.println("Erreur");
         }
     }
 

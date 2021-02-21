@@ -180,6 +180,13 @@ public class MainTest {
         assertEquals(Ranking.highCard, highCard);
     }
 
+    @Test
+    public void DetectAFlushErreur() {
+        CardHand pokerHand = new CardHand("2C 4C 6C JC");
+        PokerCombination combination = new PokerCombination();
+        Ranking isAFlush = combination.detect(pokerHand);
+        assertEquals(Ranking.flush, isAFlush);
+    }
 
     // P1 Wins
 /*

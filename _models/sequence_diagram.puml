@@ -10,27 +10,39 @@ participant "_: Main" as M
 U -> M: main(args: String[])
 activate M
     alt |args| = 2
-        M -> M: p1 = str2Array(args[0])
-        M -> M: p2 = str2Array(args[1])
-    else
+        create "k: PokerPlayer" as K
+        M -> K : new PokerPlayer(args[0])
+        K --> M : player1
+        M -> K : new PokerPlayer(args[1])
+        K --> M : player2
+        M -> M: players = new ArrayList<PokerPlayer>()
+        M -> M : players = add(player1)
+        M -> M : players = add(player2)
+        create "r: pokerReferee" as R
+        M -> R: new pokerReferee(players)
+        R --> M: pokerReferee
+        M --> U: getMessage()
+    else |else|
         create "s: Scanner" as S
         M -> S: new(stdin)
         M -> S: readLine()
-        S --> M: line
-        M -> M: p1 = str2Array(line)
+        S --> M: line1
         M -> S: readLine()
-        S --> M: line
-        M -> M: p2 = str2Array(line)
+        S --> M: line2
+        M -> K: new PokerPlayer(line1)
+        K --> M: player1
+        M -> K: new PokerPlayer(line2)
+        K --> M: player2
         M -> S: close()
         destroy S
-    end
-    opt error
-        M --> U: "ERROR"
-    end
-    M -> M: c1 = findComb(p1)
-    M -> M: c2 = findComb(p2)
-    M -> M: result = comp(c1, c2)
-    M --> U: result
-deactivate M
+        M -> M : players = new ArrayList<PokerPlayer>()
+        M -> M : players = add(player1)
+        M -> M : players = add(player2)
 
+        create "r: pokerReferee" as R
+        M -> R: new pokerReferee(players)
+        R --> M: pokerReferee
+        M --> U: getMessage()
+    end
+deactivate M
 @enduml

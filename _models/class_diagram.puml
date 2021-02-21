@@ -102,8 +102,13 @@ package uqam.inf5153.poker {
   -buildWinnerHighCardMessage(players: ArrayList<PokerPlayer>, max Value): String
   }
 
+  class Error {
+  + isValidHand(hand: String): String
+  }
+
 Main -- PokerPlayer
 Main -- PokerReferee
+Main -- Error
 PokerPlayer -- PokerReferee
 Player <|-- PokerPlayer
 Poker o-- PokerPlayer

@@ -31,17 +31,25 @@ public class CardHand {
     public CardHand(String hand) {
         String h = hand.trim().toUpperCase();
         cardHand = new ArrayList<>();
-        if (isValidHand(h)) {
+       // if (isValidHand(h)) {
             String[] tokens = strHandToArray(h);
             for (String token : tokens) {
                 Card card = new Card(charToValue().get(token.charAt(0)), charToColor().get(token.charAt(1)));
                 this.cardHand.add(card);
             }
-        }
+        //}
     }
 
     public ArrayList<Card> getHand() {
         return cardHand;
+    }
+
+    public Set<Character> getSetOfValues() {
+        return setOfValues;
+    }
+
+    public Set<Character> getSetOfShapes() {
+        return setOfShapes;
     }
 
     private static Map<Character, Value> charToValue() {
