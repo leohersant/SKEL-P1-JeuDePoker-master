@@ -1,5 +1,8 @@
 HERL16027606
-LEONARDO HERNANDEZ
+LEONARDO HERNANDEZ SANTOS
+
+Évolution du code
+https://github.com/leohersant/SKEL-P1-JeuDePoker-master.git
 
 Le programme fonctionne 2 mains de poker, mais la structure a été changée
 pour supporter plusieurs mains (voir test findTie3Players ou findWinner3Players)
