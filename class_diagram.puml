@@ -1,0 +1,122 @@
+@startuml
+!include _common.style
+
+title Poker Game (Structure)
+center footer project #1 - class diagram
+
+
+package uqam.inf5153.poker {
+
+  class Main {
+  }
+
+  class PokerCombination {
+    --
+    + detect(pokerHand: CardHand)
+    - royalFlush(pokerHand:CardHand)
+    - straightFlush(pokerHand:CardHand)
+    - flush(pokerHand:CardHand)
+    - straight(pokerHand:CardHand)
+    - fourOfAKind(pokerHand:CardHand)
+    - fullHouse(pokerHand:CardHand)
+    - threeOfAKind(pokerHand:CardHand)
+    - onePair(pokerHand:CardHand)
+    - twoPair(pokerHand:CardHand)
+    - highCard(pokerHand:CardHand)
+  }
+
+  class CardHand {
+  - ArrayList<Card> cardHand
+  - Character[] values
+  - Character[] shapes
+  - Set<Character> setOfValues
+  - Set<Character> setOfShapes
+  --
+  + CardHand(hand: String)
+  + getHand(): ArrayList<card>
+  - charToValue(): Map<Character, Color>
+  - charToColor(): Map<Character, Color>
+  - getHighestCard(): Card
+  - getColor(cardValue: Value): Color
+  - getHighestCardValue(): Value
+  - isValidHand(hand: String): boolean
+  - strHandToArray(hand: String): String[]
+  }
+
+  class Card {
+   - Value value
+   - Shape shape
+   --
+   + Card()
+   + Card(value: Value, shape Shape)
+   + getValue(): Value
+   + getShape(): Shape
+   + equals(): boolean
+   + hashCode(): int
+   + toString(): String
+  }
+
+  class Player {
+  - String name
+  - int score
+  --
+  + getName(): String
+  + getScore(): int
+  + setScore(score: int)
+  }
+
+  class PokerPlayer {
+  - Ranking pokerCombination
+  - CardHand pokerHand
+  - Card highestCard
+  --
+  + getPokerCombination(): Ranking
+  + getPokerHand(): CardHand
+  + getHighestCard():Card
+  }
+
+  interface Poker {
+  + createCardHand(cardHand: String): CardHand
+  + findCardCombination(cardHand: String):Ranking
+  + findHighestCard(cardHand: CardHand):Card
+  }
+
+  class PokerReferee {
+  - String message
+  - ArrayList<PokerPlayer> players
+  --
+  + PokerReferee(players: ArrayList<PokerPlayer>)
+  + getMessage(): String
+  + getPlayers(): ArrayList<PokerPlayer>
+  - getAllCombinations(players: ArrayList<PokerPlayer>): ArrayList<Ranking>
+  - getHighestHand(rankings: ArrayList<Ranking>): Ranking
+  - findLoosers(players: ArrayList<PokerPlayer>,highestRank: Ranking): ArrayList<PokerPlayer>
+  - findWinners(players: ArrayList<PokerPlayer>,highestRank: Ranking): ArrayList<PokerPlayer>
+  - tie(players: ArrayList<PokerPlayer>):boolean
+  - buildTieMessage(players: ArrayList<PokerPlayer>): String
+  - buildWinnerMessage(winners: ArrayList<PokerPlayer> , loosers: ArrayList<PokerPlayer>):String
+  - winnersMsg(winners: ArrayList<PokerPlayer>): String
+  - loosersMsg(loosers: ArrayList<PokerPlayer>): String
+  - addToScore(players: ArrayList<PokerPlayer>): ArrayList<PokerPlayer>
+  - getHighestCardValues(players: ArrayList<PokerPlayer>): ArrayList<Value>
+  -buildWinnerHighCardMessage(players: ArrayList<PokerPlayer>, max Value): String
+  }
+
+  class Error {
+  + isValidHand(hand: String): String
+  }
+
+Main -- PokerPlayer
+Main -- PokerReferee
+Main -- Error
+PokerPlayer -- PokerReferee
+Player <|-- PokerPlayer
+Poker -- PokerPlayer
+PokerCombination -- PokerPlayer
+CardHand -- Card
+CardHand <|-- PokerCombination
+
+
+}
+
+@enduml
