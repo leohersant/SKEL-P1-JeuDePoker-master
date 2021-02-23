@@ -111,7 +111,7 @@ Main -- PokerReferee
 Main -- Error
 PokerPlayer -- PokerReferee
 Player <|-- PokerPlayer
-Poker o-- PokerPlayer
+Poker -- PokerPlayer
 PokerCombination -- PokerPlayer
 CardHand -- Card
 CardHand <|-- PokerCombination

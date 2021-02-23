@@ -1,0 +1,22 @@
+HERL16027606
+LEONARDO HERNANDEZ
+
+Le programme fonctionne 2 mains de poker, mais la structure a été changée
+pour supporter plusieurs mains (voir test findTie3Players ou findWinner3Players)
+
+Compilation: mvn clean package
+
+Voici quelques test:
+
+Test:
+// Égalité entre les joueurs P1 et P2 avec un flush.
+mvn -q exec:java  -Dexec.args="'1H 4H 6H JH 8H' '2H 3H 6H JH 8H'"
+
+// royalFlush pour P1 bat flush pour P2.
+mvn -q exec:java  -Dexec.args="'TH JH QH KH AH' '2H 3H 6H JH 8H'"
+
+// royalFlush pour P2 bat flush pour P1.
+mvn -q exec:java  -Dexec.args="'2H 3H 6H JH 8H' 'TH JH QH KH AH'"
+
+// highCard pour P1 avec ACEH (AS Coeur)
+mvn -q exec:java  -Dexec.args="'AH QS 6S 5D TC' '1S 4C KH TD 3S'"
