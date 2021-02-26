@@ -1,5 +1,4 @@
 @startuml
-!include _common.style
 
 title Poker Game (Object)
 center footer project #1 - object diagram
@@ -14,13 +13,14 @@ object "h: PokerHand" as H {
 object "c: Card" as C {
 }
 
-object "p: Poker" as P {
-}
 
 object "pp: PokerPlayer" as PP {
 }
 
-object "l: Player" as L {
+object "p1: Player" as P1 {
+}
+
+object "p2: Player" as P2 {
 }
 
 object "pc: PokerCombination" as PC {
@@ -33,14 +33,19 @@ object "e: Error" as E {
 }
 
 
-M --> E
-M --> PR
-M --> PP
-H *--> C
-PP --o P
-PP --> L
-PP --> PC
-PC --> H
-PP --> H
-PR --> PP
+M -- E
+M -- PR
+M -- P1
+P1 -- PP
+PP -- PC
+PC -- H
+H -- C
+
+M -- P2
+P2 -- PP
+PP -- PC
+PC -- H
+H -- C
+
+
 @enduml

@@ -1,5 +1,4 @@
 @startuml
-!include _common.style
 
 title Poker Game (Structure)
 center footer project #1 - class diagram
@@ -106,14 +105,11 @@ package uqam.inf5153.poker {
   + isValidHand(hand: String): String
   }
 
-Main -- PokerPlayer
-Main -- PokerReferee
-Main -- Error
-PokerPlayer -- PokerReferee
+PokerPlayer <-- PokerReferee
 Player <|-- PokerPlayer
-Poker -- PokerPlayer
-PokerCombination -- PokerPlayer
-CardHand -- Card
+Poker <|.. PokerPlayer
+PokerCombination <-- PokerPlayer
+CardHand --> Card
 CardHand <|-- PokerCombination
 
 

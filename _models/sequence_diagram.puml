@@ -1,5 +1,4 @@
 @startuml
-!include _common.style
 
 title Poker Game (Behavior)
 center footer project #1 - sequence diagram
